@@ -1,0 +1,115 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#game-board {
+  display: grid;
+  align-self: center;
+  position: absolute;
+  gap: 2.6%;
+  padding: 1.5%;
+  background: #e0e0e0;
+  box-shadow: inset 8px 8px 16px #5a5a5a,
+  inset -8px -8px 16px #ffffff;
+  border-radius: 25px;
+  text-align: center;
+  min-width: 12vw; /* Adjust as needed */
+  max-width: 80vw; /* Adjust as needed */
+  width: auto;
+  margin: auto;
+}
+
+
+.game-piece {
+    width: 3vw; /* Occupy 100% of the cell width */
+    height: 3vw; /* Occupy 100% of the cell height */
+    text-align: center;
+    font-size: 1.5vw;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+
+    clip-path: polygon(20% 0%, 80% 0%, 100% 95%, 0 95%);
+    border-radius: 45%;
+}
+
+.square {
+  width: 3vw;
+  height: 3vw;
+}
+
+.empty-space {
+  background: linear-gradient(145deg, #cacaca, #f0f0f0);
+  box-shadow:  8px 8px 16px #5a5a5a,
+               -8px -8px 16px #ffffff;
+}
+
+
+.panel {
+    background-color: #fff;
+    position: fixed;
+    /* border-radius: 10px; */
+    padding: 20px;
+    width: 60vw;
+    max-width: 400px;
+    box-shadow: -15px 15px #313131;
+    animation: slideIn 0.5s ease-in-out;
+    z-index: 2;
+}
+
+input, select, button {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+
+
+
+
+
+/* Animations */
+
+  @keyframes slideIn {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+  }
