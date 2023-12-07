@@ -37,10 +37,18 @@
             createAscendingGPRow(2,5,[2, 0],"Orange",false);
             createAscendingGPRow(5,2,[12 / 2, 0],"Orange",false);
             createGamePieceRow(8, [2, 0 + 1], 1, "Orange");
+
+            createAscendingGPRow(2,5,[0, 2],"Green", true);
+            createAscendingGPRow(5,2,[0, 6],"Green", true);
+            createGamePieceRow(8, [1, 2], 1, "Green", true);
     
             createAscendingGPRow(2,5,[2, 12 - 1],"Blue",false);
             createAscendingGPRow(5,2,[12 / 2, 12 - 1],"Blue",false);
             createGamePieceRow(8, [2, 12 - 2], 1, "Blue");
+
+            createAscendingGPRow(2,5,[12 - 1, 2],"Violet", true);
+            createAscendingGPRow(5,2,[12 - 1, 6],"Violet", true);
+            createGamePieceRow(8, [12 - 2, 2], 1, "Violet", true);
         }
  
     }
@@ -79,13 +87,13 @@
 
         // Clear the existing content
         gameBoard.innerHTML = '';
+        gameBoard.style.width = (boardSize * 3 + "vw");
+        gameBoard.style.height = (boardSize * 3 + "vw");
 
         // Loop through all possible positions on the board
         for (let row = 0; row < boardSize; row++) {
             for(let col = 0; col < boardSize; col++)
             {
-                gameBoard.style.width = (boardSize * 4 + "vw");
-                gameBoard.style.height = (boardSize * 4 + "vw");
                 const cellDiv = document.createElement('div');
                 cellDiv.className = 'empty-space square';
 
@@ -103,10 +111,10 @@
 
                 // Create a div element for the cell
                 const cellDiv = document.createElement('div');
-                cellDiv.className = 'game-piece';
 
                 // If there's a game piece, render it; otherwise, render an empty space
                 if (hasGamePiece) {
+                    cellDiv.className = 'game-piece';
                     const gamePiece = BoardData.find(piece => isEqual(piece.position, position));
                     cellDiv.style.backgroundColor = gamePiece.owner.toLowerCase();
                     cellDiv.innerText = gamePiece.level;
@@ -285,6 +293,11 @@
             holderArray.push([x +1, y +1]);
             holderArray.push([x -1, y -1]);
             holderArray.push([x -1, y +1]);
+
+            holderArray.push([x , y -1]);
+            holderArray.push([x -1 , y]);
+            holderArray.push([x , y +1]);
+            holderArray.push([x +1 , y]);
         }
         else
         {

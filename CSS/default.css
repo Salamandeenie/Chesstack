@@ -12,12 +12,11 @@ body {
   display: grid;
   align-self: center;
   position: absolute;
-  gap: 2.6%;
-  padding: 1.5%;
+  gap: 0;
+  padding: 0;
   background: #e0e0e0;
-  box-shadow: inset 8px 8px 16px #5a5a5a,
+  box-shadow: inset 5px 5px 16px #5a5a5a,
   inset -8px -8px 16px #ffffff;
-  border-radius: 25px;
   text-align: center;
   min-width: 12vw; /* Adjust as needed */
   max-width: 80vw; /* Adjust as needed */
@@ -27,19 +26,23 @@ body {
 
 
 .game-piece {
+    position: relative;
+    top: -20%;
     width: 3vw; /* Occupy 100% of the cell width */
     height: 3vw; /* Occupy 100% of the cell height */
     text-align: center;
+    justify-self: center;
+    align-self: center;
     font-size: 1.5vw;
     font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
-
     color: white;
 
-    clip-path: polygon(20% 0%, 80% 0%, 100% 95%, 0 95%);
+    clip-path: polygon(20% 0%, 80% 0%, 100% 110%, 0 110%);
     border-radius: 45%;
+    box-shadow: 0 2px 0 1px #a5a5a5 /* Adjust the spread value for the outline width */
 }
 
 .square {
@@ -48,9 +51,16 @@ body {
 }
 
 .empty-space {
-  background: linear-gradient(145deg, #cacaca, #f0f0f0);
-  box-shadow:  8px 8px 16px #5a5a5a,
-               -8px -8px 16px #ffffff;
+  background: linear-gradient(145deg, #f0f0f0, #cacaca);
+/*  box-shadow:  8px 8px 16px #5a5a5a,
+              -8px -8px 16px #ffffff; */
+  border-bottom: 3px solid darkslategrey;
+  border-right: 3px solid darkslategrey;
+  border-left: 3px solid white;
+  border-top: 3px solid white;
+
+  justify-self: center;
+  align-self: center;
 }
 
 
