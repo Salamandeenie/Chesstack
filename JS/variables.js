@@ -14,6 +14,8 @@
     var turnTracker = 0;
     var turnToColor = ["Blue", "Orange"];
 
+    const gameBoard = document.getElementById('game-board');
+
     // Inputs
     var playerCount;
     var boardSize;

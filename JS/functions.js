@@ -49,6 +49,9 @@
             createAscendingGPRow(2,5,[12 - 1, 2],"Violet", true);
             createAscendingGPRow(5,2,[12 - 1, 6],"Violet", true);
             createGamePieceRow(8, [12 - 2, 2], 1, "Violet", true);
+
+            turnToColor.push("Green");
+            turnToColor.push("Violet");
         }
  
     }
@@ -287,17 +290,14 @@
             (x-1 < 0) ? null : holderArray.push([x -1 , y]);
             (y-1 < 0) ? null : holderArray.push([x , y -1]);
         }
-        else if (stackHeight >= boardSize)
+        else if ((stackHeight >= boardSize))
         {
-            holderArray.push([x +1, y -1]);
-            holderArray.push([x +1, y +1]);
-            holderArray.push([x -1, y -1]);
-            holderArray.push([x -1, y +1]);
-
-            holderArray.push([x , y -1]);
-            holderArray.push([x -1 , y]);
-            holderArray.push([x , y +1]);
-            holderArray.push([x +1 , y]);
+            for (let i = 1; i < boardSize; i++) {
+                holderArray.push([x +i, y]);
+                holderArray.push([x -i, y]);
+                holderArray.push([x, y +i]);
+                holderArray.push([x, y -i]);
+            }
         }
         else
         {
@@ -342,7 +342,7 @@
 
 // Array Functions
 {
-    // Simpple function to check if two arrays are equal
+    // Simple function to check if two arrays are equal
     function isEqual(arr1, arr2) {
         return arr1.every((val, index) => val === arr2[index]);
     }
@@ -354,7 +354,7 @@
         for (let i = 0; i < arr.length; i++) {
             const pos = arr[i];
             const correctedPos = correctPosition(pos);
-            correctedArray.push(correctedPos);
+            selectedGamePiece.position != correctedPos ? correctedArray.push(correctedPos) : console.log("Same position detected!");
         }
 
         return correctedArray;

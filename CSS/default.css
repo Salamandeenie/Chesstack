@@ -40,7 +40,7 @@ body {
 
     clip-path: polygon(20% 0%, 80% 0%, 100% 110%, 0 110%);
     border-radius: 45%;
-    box-shadow: 0 0.10vw 0 0.20vw #a5a5a5 /* Adjust the spread value for the outline width */
+    box-shadow: 0 0.2vw 0 0.05vw #a5a5a5 /* Adjust the spread value for the outline width */
 }
 
 .square {
