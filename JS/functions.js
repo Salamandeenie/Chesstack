@@ -136,8 +136,6 @@
         }
     }
 
-    
-
     // This creates a row of GamePieces and appends it to BoardData
     function createGamePieceRow(Length = boardSize, startPos = [0, 0], stackHeight = 1, owner, isVertical = false) {
         for (let i = 0; i < Length; i++) {
@@ -218,7 +216,8 @@
 
         if (existingPiece) {
             // Resolve conflict - modify gamePiece's information as needed
-            gamePiece.level += existingPiece.level; // Adjust levels
+
+            (gamePiece.level + existingPiece.level) < boardSize ? gamePiece.level + existingPiece.level: gamePiece.level = '≡'; // Adjust levels
             // Optionally, you can do more adjustments based on your requirements
 
             // Remove the existing piece from BoardData
@@ -290,7 +289,7 @@
             (x-1 < 0) ? null : holderArray.push([x -1 , y]);
             (y-1 < 0) ? null : holderArray.push([x , y -1]);
         }
-        else if ((stackHeight >= boardSize))
+        else if ((stackHeight >= boardSize) || stackHeight == '≡')
         {
             for (let i = 1; i < boardSize; i++) {
                 holderArray.push([x +i, y]);
