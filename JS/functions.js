@@ -217,7 +217,7 @@
         if (existingPiece) {
             // Resolve conflict - modify gamePiece's information as needed
 
-            (gamePiece.level + existingPiece.level) < boardSize ? gamePiece.level + existingPiece.level: gamePiece.level = '≡'; // Adjust levels
+            (gamePiece.level + existingPiece.level) < boardSize ? gamePiece.level += existingPiece.level: gamePiece.level = '≡'; // Adjust levels
             // Optionally, you can do more adjustments based on your requirements
 
             // Remove the existing piece from BoardData
@@ -417,7 +417,6 @@
     // Function to move the currently selected game piece
     function moveSelectedPiece(pos) {
         destroyGamePiece(selectedGamePiece);
-        console.log(selectedGamePiece);
         BoardUpdateData.push(new GamePiece(pos, selectedGamePiece.level, selectedGamePiece.owner));
         resolveBoardConflicts();
         drawGameBoard();
