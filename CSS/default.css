@@ -14,11 +14,7 @@ body {
   position: absolute;
   gap: 0;
   padding: 0;
-  background: #e0e0e0;
   text-align: center;
-  min-width: 12vw; /* Adjust as needed */
-  max-width: 80vw; /* Adjust as needed */
-  width: auto;
   margin: auto;
 }
 
@@ -31,7 +27,7 @@ body {
     text-align: center;
     justify-self: center;
     align-self: center;
-    font-size: 1.5vw;
+    font-size: 2vw;
     font-weight: bold;
     display: flex;
     justify-content: center;

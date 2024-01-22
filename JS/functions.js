@@ -90,8 +90,8 @@
 
         // Clear the existing content
         gameBoard.innerHTML = '';
-        gameBoard.style.width = 3.3 * boardSize +'vw';
-        gameBoard.style.height = 3.3 * boardSize +'vw';
+        gameBoard.style.width = 3.63 * boardSize +'vw';
+        gameBoard.style.height = 3.63 * boardSize +'vw';
 
         // Loop through all possible positions on the board
         for (let row = 0; row < boardSize; row++) {
