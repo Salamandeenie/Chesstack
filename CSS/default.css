@@ -1,11 +1,62 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #e0e0e0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+:root
+{
+  /*Color Palette, and Background*/
+  --color1: #ffffff;
+  --color2: #eeeeee;
+  --color3: #999999;
+  --color4: #000000;
+  --speed: 25s; /*The speed of the background*/
+  --size: 200vh;
+
+  /* Panel */
+  --slide-speed: 1s;
+  --overshoot-amount: 5%;
+
+}
+
+@font-face
+{
+  font-family: 'Rague';
+  src: url('../Fonts/rague.ttf') format('truetype');
+}
+html { font-family: 'Rague', Arial, sans-serif}
+
+body 
+{  
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--color1) 0%,
+    var(--color2) 2.5%,
+    var(--color3) 3.55%,
+    var(--color4) 5%
+  );
+  background-size: var(--size) var(--size);
+  animation: move-it var(--speed) linear infinite;
+  position: relative; /* Ensure the vignetting is contained within the body */
+
+  margin: 0;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+body::after 
+{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(27, 39, 53, 0) 0%,
+    #090a0f 100%
+  );
+  pointer-events: none; /* Allow interactions to pass through the vignette */
 }
 
 #game-board {
@@ -13,9 +64,12 @@ body {
   align-self: center;
   position: absolute;
   gap: 0;
-  padding: 0;
+  padding: 10px;
   text-align: center;
   margin: auto;
+  background-color: white;
+  border: var(--color1) solid 3px;
+  border-radius: 5px;
 }
 
 
@@ -35,7 +89,7 @@ body {
     color: white;
 
     clip-path: polygon(20% 0%, 80% 0%, 100% 110%, 0 110%);
-    border-radius: 45%;
+    border-radius: 50%;
     box-shadow: 0 0.2vw 0 0.05vw #a5a5a5 /* Adjust the spread value for the outline width */
 }
 
@@ -58,19 +112,25 @@ body {
 }
 
 
-.panel {
-    background-color: #fff;
-    position: fixed;
-    /* border-radius: 10px; */
-    padding: 20px;
-    width: 60vw;
-    max-width: 400px;
-    box-shadow: -15px 15px #313131;
-    animation: slideIn 0.5s ease-in-out;
-    z-index: 2;
+.panel 
+{
+  background-color: #fff;
+  position: fixed;
+  padding: 15px;
+  width: 60vw;
+  max-width: 400px;
+  animation: slideIn var(--slide-speed) ease-in-out forwards;
+  z-index: 2;
+  border-radius: 10px;
+  border: var(--color1) solid 4px;
+  top: -100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
+.panel.slide-out {animation: slideOut var(--slide-speed) ease-in-out forwards}
 
-input, select, button {
+input, select, button 
+{
     width: 100%;
     margin-bottom: 15px;
     padding: 10px;
@@ -80,40 +140,52 @@ input, select, button {
 }
 
 button {
-    background-color: #4caf50;
+    background-color: var(--color4);
     color: #fff;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: var(--color2);
+}
+
+/*? Animations */
+/*< Background >*/
+@keyframes move-it
+{
+  0% {background-position: 0 0;}
+  100% {background-position: 200vh 200vh;}
 }
 
 
+/*< Panel >*/
+@keyframes slideIn 
+{
+  0% {top: -100%; left: 50%; transform: translate(-50%, -50%);}
+  70% {top: calc(50% + var(--overshoot-amount)); left: 50%; transform: translate(-50%, -50%);}
+  100% {top: 50%; left: 50%; transform: translate(-50%, -50%);}
+}
+@keyframes slideOut
+{
+  0% {top: 50%; left: 50%; transform: translate(-50%, -50%);}
+  30% {top: calc(50% + var(--overshoot-amount)); left: 50%; transform: translate(-50%, -50%);}
+  100% {top: -100%; left: 50%; transform: translate(-50%, -50%);}
+}
 
 
+/*! DISABLES TEXT HIGHLIGHTING !*/
+/* Prevent text and elements from being highlighted */
+* {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
+    user-select: none;         /* Standard */
+}
 
-
-/* Animations */
-
-  @keyframes slideIn {
-    from {
-      transform: translateY(-50px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-  @keyframes slideOut {
-    from {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateY(-50px);
-      opacity: 0;
-    }
-  }
+/* Prevent text input elements from being highlighted */
+input, textarea {
+    -webkit-user-select: auto; /* Safari */
+    -moz-user-select: auto;    /* Firefox */
+    -ms-user-select: auto;     /* Internet Explorer/Edge */
+    user-select: auto;         /* Standard */
+}

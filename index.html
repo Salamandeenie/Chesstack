@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div class="panel">
+<div class="panel" id="panel">
     <h1>Chesstack</h1>
     <label for="playerCount">Number of Players:</label>
     <select id="playerCount" default="2">
@@ -29,15 +29,20 @@
     <button onclick="startButton()">Start Game</button>
 </div>
 
-<div id="game-board"></div>
+<div id="game-board" style="display: none"></div>
 
-<div style="position: fixed; bottom: 10px; left: 10px; font-size: 1em; color: #333;">
-  Salamandeenie ©2023, Under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA License</a>
+<div style="position: fixed; bottom: 10px; left: 10px; font-size: 0.5em; color: #222; background-color: white; z-index: 9; border-radius: 7px; padding: 3px; border: #000 solid 2px">
+  Salamandeenie ©2024, Under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA License (Ver. 4.0)</a>
 </div>
 
-<script src="JS/variables.js"></script>
-<script src="JS/functions.js"></script>
-<script src="JS/bridge.js"></script>
+
+<script src="CSS/animation.js"></script>
+
+<script src="JS2/class.js"></script>
+<script src="boards/boards.js"></script>
+<script src="JS2/variables.js"></script>
+<script src="JS2/functions.js"></script>
+<script src="JS2/init.js"></script>
 
 </body>
 </html>

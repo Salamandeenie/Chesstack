@@ -29,9 +29,6 @@
             createAscendingGPRow(2,5,[0, 8 - 1],"Blue",false);
             createAscendingGPRow(5,2,[8 / 2, 8 - 1],"Blue",false);
             createGamePieceRow(8, [1, 8 - 2], 1, "Blue");
-
-            turnToColor.push("Blue");
-            turnToColor.push("Orange");
         }
 
         if (playerCount == 4)
@@ -53,10 +50,8 @@
             createAscendingGPRow(5,2,[12 - 1, 6],"Violet", true);
             createGamePieceRow(8, [12 - 2, 2], 1, "Violet", true);
 
-            turnToColor.push("Orange");
-            turnToColor.push("Violet");
-            turnToColor.push("Blue");
             turnToColor.push("Green");
+            turnToColor.push("Violet");
         }
  
     }
@@ -90,8 +85,7 @@
 
 
     // Function to draw the game board
-    function drawGameBoard() 
-    {
+    function drawGameBoard() {
         const gameBoard = document.getElementById('game-board');
 
         // Clear the existing content
@@ -160,7 +154,6 @@
         resolveBoardConflicts();
     }
 
-    
     // This is essentially a variant of the previous function. This creates a row of pieces that increases / descends cup stack height as it loops.
     function createAscendingGPRow(startHeight = 0, endHeight = 1, startPos = [0, 0], owner, isVertical = false) {
         const loopCount = Math.abs(startHeight - endHeight) +1;

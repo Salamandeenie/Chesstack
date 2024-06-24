@@ -12,7 +12,7 @@
 
     // This two keep track whose turn it is
     var turnTracker = 0;
-    var turnToColor = [];
+    var turnToColor = ["Blue", "Orange"];
 
     const gameBoard = document.getElementById('game-board');
 
