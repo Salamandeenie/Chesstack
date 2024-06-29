@@ -1,5 +1,6 @@
 function call_Board(type, playerCount)
 {
+    console.log(type, playerCount)
     board = new Board()
 
     if (type === "chess")
@@ -51,11 +52,6 @@ function call_Board(type, playerCount)
     
             return board;
         }
-
-    }
-
-    else if (type === "uniformCustom")
-    {
 
     }
 }

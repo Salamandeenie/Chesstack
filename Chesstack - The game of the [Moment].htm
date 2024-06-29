@@ -1,57 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="CSS/default.css">
-    <title>Chesstack - The game of the [Moment]</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chesstack - The game of the [Moment]</title>
+  <link rel="stylesheet" type="text/css" href="CSS/default.css">
 
 </head>
+
+<style>
+  :root
+{
+  /*Color Palette, and Background*/
+  --color1: #ffffff;
+  --color2: #eeeeee;
+  --color3: #999999;
+  --color4: #000000;
+  --speed: 25s; /*The speed of the background*/
+  --size: 200vh;
+
+  /* Panel */
+  --slide-speed: 1s;
+  --overshoot-amount: 5%;
+
+}
+
+@font-face
+{
+  font-family: 'Rague';
+  src: url('../Fonts/Rague.ttf') format('truetype');
+}
+* { font-family: 'rague', Arial, sans-serif !important}
+
+body 
+{  
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--color1) 0%,
+    var(--color2) 2.5%,
+    var(--color3) 3.55%,
+    var(--color4) 5%
+  );
+  background-size: var(--size) var(--size);
+  animation: move-it var(--speed) linear infinite;
+  position: relative; /* Ensure the vignetting is contained within the body */
+
+  margin: 0;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+body::after 
+{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(27, 39, 53, 0) 0%,
+    #090a0f 100%
+  );
+  pointer-events: none; /* Allow interactions to pass through the vignette */
+}
+
+#game-board {
+  display: grid;
+  align-self: center;
+  position: absolute;
+  gap: 0;
+  padding: 10px;
+  text-align: center;
+  margin: auto;
+  background-color: white;
+  border: var(--color1) solid 3px;
+  border-radius: 5px;
+}
+
+
+.game-piece {
+    position: relative;
+    top: -20%;
+    width: 3vw; /* Occupy 100% of the cell width */
+    height: 3vw; /* Occupy 100% of the cell height */
+    text-align: center;
+    justify-self: center;
+    align-self: center;
+    font-size: 2vw;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+
+    clip-path: polygon(20% 0%, 80% 0%, 100% 110%, 0 110%);
+    border-radius: 50%;
+    box-shadow: 0 0.2vw 0 0.05vw #a5a5a5 /* Adjust the spread value for the outline width */
+}
+
+.square {
+  width: 3vw;
+  height: 3vw;
+}
+
+.empty-space {
+  background: linear-gradient(145deg, #f0f0f0, #cacaca);
+/*  box-shadow:  8px 8px 16px #5a5a5a,
+              -8px -8px 16px #ffffff; */
+  border-bottom: 3px solid darkslategrey;
+  border-right: 3px solid darkslategrey;
+  border-left: 3px solid white;
+  border-top: 3px solid white;
+
+  justify-self: center;
+  align-self: center;
+}
+
+
+.panel 
+{
+  background-color: #fff;
+  position: fixed;
+  padding: 15px;
+  width: 60vw;
+  max-width: 400px;
+  animation: slideIn var(--slide-speed) ease-in-out forwards;
+  z-index: 2;
+  border-radius: 10px;
+  border: var(--color1) solid 4px;
+  top: -100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.panel.slide-out {animation: slideOut var(--slide-speed) ease-in-out forwards}
+
+input, select, button, option
+{
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+button 
+{
+    background-color: var(--color4);
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover { background-color: var(--color2); }
+
+.dropdown
+{
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+}
+
+.dropdown button
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color1);
+  color: var(--color4);
+  border: 2px solid var(--color4);
+  border-radius: 5px;
+  padding: 7px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.dropdown button::after
+{
+  content: '\25BC';
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.dropdown-content
+{
+  display: none;
+  position: absolute;
+  top: 32px;
+  background-color: var(--color1);
+  min-width: 99.5%;
+  border: 1px solid var(--color4);
+  z-index: 1;
+  animation-duration: 0.3s;
+}
+
+.dropdown-content div
+{
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  animation-fill-mode: both;
+}
+
+.dropdown-content div:hover
+{
+  background-color: var(--color3);
+  color: var(--color2);
+}
+
+.dropdown-open { animation-name: dropdownFadeIn; display: block; }
+.dropdown-close { animation-name: dropdownFadeOut; }
+
+/*? Animations */
+/*< Background >*/
+@keyframes move-it
+{
+  0% {background-position: 0 0;}
+  100% {background-position: 200vh 200vh;}
+}
+
+
+/*< Panel >*/
+@keyframes slideIn 
+{
+  0% {top: -100%; left: 50%; transform: translate(-50%, -50%);}
+  70% {top: calc(50% + var(--overshoot-amount)); left: 50%; transform: translate(-50%, -50%);}
+  100% {top: 50%; left: 50%; transform: translate(-50%, -50%);}
+}
+@keyframes slideOut
+{
+  0% {top: 50%; left: 50%; transform: translate(-50%, -50%);}
+  30% {top: calc(50% + var(--overshoot-amount)); left: 50%; transform: translate(-50%, -50%);}
+  100% {top: -100%; left: 50%; transform: translate(-50%, -50%);}
+}
+@keyframes dropdownFadeIn
+{
+  0% { opacity: 0; transform: translateY(-10px);}
+  100% { opacity: 1; transform: translateY(0);}  
+}
+@keyframes dropdownFadeOut
+{
+  0% { opacity: 1; transform: translateY(0);}  
+  100% { opacity: 0; transform: translateY(-10px);}
+}
+
+
+/*! DISABLES TEXT HIGHLIGHTING !*/
+/* Prevent text and elements from being highlighted */
+* {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
+    user-select: none;         /* Standard */
+}
+
+/* Prevent text input elements from being highlighted */
+input, textarea {
+    -webkit-user-select: auto; /* Safari */
+    -moz-user-select: auto;    /* Firefox */
+    -ms-user-select: auto;     /* Internet Explorer/Edge */
+    user-select: auto;         /* Standard */
+}
+</style>
 <body>
-    <div class="stripe">
-        <div class="stripe_inner"></div>
+
+<div class="panel" id="panel">
+  <h1>Chesstack</h1>
+  <label for="playerCount">Number of Players:</label>
+  <div class="dropdown">
+    <button id="playerCountBtn" onclick="toggleDropdown('playerCountDropdown')">2</button>
+    <div class="dropdown-content" id="playerCountDropdown">
+      <div onclick="selectPlayerCount(2)">2</div>
+      <div onclick="selectPlayerCount(4)">4</div>
     </div>
-    <div class="panel" id="panel">
-        <h1>Chesstack</h1>
-        <label for="playerCount">Number of Players:</label>
-        <select id="playerCount" default="2">
-            <option value="2" selected>2</option>
-            <option value="4">4</option>
-        </select>
+  </div>
 
-        <label for="boardType">Type of Board:</label>
-        <select id="boardType" default="chess">
-            <option value="chess" selected>Chess Style</option>
-            <option value="custom">Uniform Custom</option>
-        </select>
-
-        <div id="boardSizeContainer" style="display: none;">
-            <label for="boardSize">Board Size (Min 3):</label>
-            <input type="number" id="boardSize" min="3">
-        </div>
-        <button onclick="startButtoon()">Start Game</button>
+  <label for="boardType">Type of Board:</label>
+  <div class="dropdown">
+    <button id="boardTypeBtn" onclick="toggleDropdown('boardTypeDropdown')">Chess Style</button>
+    <div class="dropdown-content" id="boardTypeDropdown">
+      <div onclick="selectBoardType('chess')">Chess Style</div>
     </div>
+  </div>
 
-    <div id="game-board"></div>
+  <div id="boardSizeContainer" style="display: none;">
+    <label for="boardSize">Board Size (Min 3):</label>
+    <input type="number" id="boardSize" min="3">
+  </div>
+  <button onclick="startButton()">Start Game</button>
+</div>
 
-    <div style="position: fixed; bottom: 10px; left: 10px; font-size: 1em; color: #222; background-color: white; z-index: 9; border-radius: 7px; padding: 3px; border: #000 solid 2px">
-        Salamandeenie ©2024, Under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA License (Ver. 4.0)</a>
-    </div>
+<div id="game-board" style="display: none"></div>
 
-    <script src="CSS/animation.js"></script>
-    <script>
-        function startButtoon() {
-            // Slide out the panel
-            const panel = document.getElementById('panel');
-            panel.classList.add('slide-out');
-    
-            // Example: Change colors when the start button is clicked
-            animateColors('#00ff00', '#000000', '#000000', '#000000', 3000, false); // Forward animation
-    
-            // Example usage: fade screen to black for 3 seconds
-           // fadeScreen(3000); // Duration in milliseconds (3 seconds)
-        }
-    </script>
-    
+<div style="position: fixed; bottom: 10px; left: 10px; font-size: 0.5em; color: #222; background-color: white; z-index: 9; border-radius: 7px; padding: 3px; border: #000 solid 2px">
+  Salamandeenie ©2024, Under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA License (Ver. 4.0)</a>
+</div>
+
+<script src="CSS/animation.js"></script>
+
+<script>
+// Function to prompt user for decision and return choice
+
+// Example usage:
+
+
+</script>
+
+<script src="JS2/dropdown.js"></script>
+
+
+<script src="JS2/class.js"></script>
+<script src="boards/boards.js"></script>
+<script src="JS2/variables.js"></script>
+<script src="JS2/functions.js"></script>
+<script src="JS2/init.js"></script>
+
 </body>
 </html>

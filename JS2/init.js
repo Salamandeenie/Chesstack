@@ -1,8 +1,6 @@
-function startButton()
+//? Retrieves the values from dropdowns and starts the game
+function startButton() 
 {
-    playerCount = document.getElementById("playerCount").value;
-    boardSize = document.getElementById("boardSize").value ? document.getElementById("boardSize").value : undefined;
-    boardType = document.getElementById("boardType").value;
-
+    // boardSize = document.getElementById("boardSizeBtn").innerText || 8;
     startGame();
 }

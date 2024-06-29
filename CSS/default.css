@@ -17,9 +17,9 @@
 @font-face
 {
   font-family: 'Rague';
-  src: url('../Fonts/rague.ttf') format('truetype');
+  src: url('../Fonts/Rague.ttf') format('truetype');
 }
-html { font-family: 'Rague', Arial, sans-serif}
+* { font-family: 'rague', Arial, sans-serif !important}
 
 body 
 {  
@@ -129,7 +129,7 @@ body::after
 }
 .panel.slide-out {animation: slideOut var(--slide-speed) ease-in-out forwards}
 
-input, select, button 
+input, select, button, option
 {
     width: 100%;
     margin-bottom: 15px;
@@ -137,17 +137,77 @@ input, select, button
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 5px;
+    text-align: center;
 }
 
-button {
+button 
+{
     background-color: var(--color4);
     color: #fff;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: var(--color2);
+button:hover { background-color: var(--color2); }
+
+.dropdown
+{
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
 }
+
+.dropdown button
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color1);
+  color: var(--color4);
+  border: 2px solid var(--color4);
+  border-radius: 5px;
+  padding: 7px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.dropdown button::after
+{
+  content: '\25BC';
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.dropdown-content
+{
+  display: none;
+  position: absolute;
+  top: 32px;
+  background-color: var(--color1);
+  min-width: 99.5%;
+  border: 1px solid var(--color4);
+  z-index: 1;
+  animation-duration: 0.3s;
+}
+
+.dropdown-content div
+{
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  animation-fill-mode: both;
+}
+
+.dropdown-content div:hover
+{
+  background-color: var(--color3);
+  color: var(--color2);
+}
+
+.dropdown-open { animation-name: dropdownFadeIn; display: block; }
+.dropdown-close { animation-name: dropdownFadeOut; }
 
 /*? Animations */
 /*< Background >*/
@@ -170,6 +230,16 @@ button:hover {
   0% {top: 50%; left: 50%; transform: translate(-50%, -50%);}
   30% {top: calc(50% + var(--overshoot-amount)); left: 50%; transform: translate(-50%, -50%);}
   100% {top: -100%; left: 50%; transform: translate(-50%, -50%);}
+}
+@keyframes dropdownFadeIn
+{
+  0% { opacity: 0; transform: translateY(-10px);}
+  100% { opacity: 1; transform: translateY(0);}  
+}
+@keyframes dropdownFadeOut
+{
+  0% { opacity: 1; transform: translateY(0);}  
+  100% { opacity: 0; transform: translateY(-10px);}
 }
 
 

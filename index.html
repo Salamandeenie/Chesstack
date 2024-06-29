@@ -8,26 +8,31 @@
 </head>
 <body>
 
-<div class="panel" id="panel">
+  <div class="panel" id="panel">
     <h1>Chesstack</h1>
     <label for="playerCount">Number of Players:</label>
-    <select id="playerCount" default="2">
-    <option value="2" selected>2</option>
-    <option value="4">4</option>
-    </select>
-
+    <div class="dropdown">
+      <button id="playerCountBtn" onclick="toggleDropdown('playerCountDropdown')">2</button>
+      <div class="dropdown-content" id="playerCountDropdown">
+        <div onclick="selectPlayerCount(2)">2</div>
+        <div onclick="selectPlayerCount(4)">4</div>
+      </div>
+    </div>
+  
     <label for="boardType">Type of Board:</label>
-    <select id="boardType" default="chess">
-    <option value="chess" selected>Chess Style</option>
-    <option value="custom">Uniform Custom</option>
-    </select>
-
+    <div class="dropdown">
+      <button id="boardTypeBtn" onclick="toggleDropdown('boardTypeDropdown')">Chess Style</button>
+      <div class="dropdown-content" id="boardTypeDropdown">
+        <div onclick="selectBoardType('chess')">Chess Style</div>
+      </div>
+    </div>
+  
     <div id="boardSizeContainer" style="display: none;">
-    <label for="boardSize">Board Size (Min 3):</label>
-    <input type="number" id="boardSize" min="3">
+      <label for="boardSize">Board Size (Min 3):</label>
+      <input type="number" id="boardSize" min="3">
     </div>
     <button onclick="startButton()">Start Game</button>
-</div>
+  </div>
 
 <div id="game-board" style="display: none"></div>
 
@@ -35,12 +40,12 @@
   Salamandeenie ©2024, Under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA License (Ver. 4.0)</a>
 </div>
 
-
-<script src="CSS/animation.js"></script>
-
 <script src="JS2/class.js"></script>
 <script src="boards/boards.js"></script>
 <script src="JS2/variables.js"></script>
+<script src="CSS/animation.js"></script>
+<script src="JS2/dropdown.js"></script>
+
 <script src="JS2/functions.js"></script>
 <script src="JS2/init.js"></script>
 

@@ -199,9 +199,6 @@ function moveSelectedStack(pos)
     board.updateData.push(new Stack(pos, board.selectedStack.height, board.selectedStack.owner));
 
     board.resolveBoardConflicts();
-    drawGameBoard();
-    board.winCheck();
-    drawBackground(board.colorTurn());
 }
 
 //> Nabbers and Listeners

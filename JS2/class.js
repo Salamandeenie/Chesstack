@@ -30,7 +30,7 @@ class Stack
         var calcPieceArray = []
         var tempArray = []
 
-        if (height == 1)
+        if (height === 1)
         {
             // Check cardinal
             (x + 1 > board.size - 1) ? null : tempArray.push(new Position(x + 1, y));
@@ -45,7 +45,7 @@ class Stack
             (x - 1 < 0 || y + 1 > board.size - 1) ? null : tempArray.push(new Position(x - 1, y + 1));
         }
 
-        else if ((height >= board.size) || height == '≡')
+        else if (height === '”')
         {
             for (let i = 1; i < board.size; i++)
             {
@@ -53,6 +53,16 @@ class Stack
                 tempArray.push(new Position(x - i, y));
                 tempArray.push(new Position(x, y + i));
                 tempArray.push(new Position(x, y - i));
+            }
+        }
+        else if (height === "“")
+        {
+            for (let i = 1; i < board.size; i++)
+            {
+                tempArray.push(new Position(x + i, y + i));
+                tempArray.push(new Position(x - i, y - i));
+                tempArray.push(new Position(x - i, y + i));
+                tempArray.push(new Position(x + i, y - i));
             }
         }
 
@@ -114,17 +124,25 @@ class Board
 
     resolveBoardConflicts()
     {
-        for (let i = 0; i < this.updateData.length; i++) // Corrected loop
+        for (let i = 0; i < this.updateData.length; i++)
         {
             const stack = this.updateData[i];
     
             // Wrap around if x or y is greater than or equal to the board limit
-            if (stack.position.x >= this.size) { stack.position.x %= this.size; }
-            if (stack.position.y >= this.size) { stack.position.y %= this.size; }
+            if (stack.position.x >= this.size) {
+                stack.position.x %= this.size;
+            }
+            if (stack.position.y >= this.size) {
+                stack.position.y %= this.size;
+            }
     
             // Wrap around if x or y is less than 0
-            if (stack.position.x < 0) { stack.position.x = (this.size - Math.abs(stack.position.x)) % this.size; }
-            if (stack.position.y < 0) { stack.position.y = (this.size - Math.abs(stack.position.y)) % this.size; }
+            if (stack.position.x < 0) {
+                stack.position.x = (this.size - Math.abs(stack.position.x)) % this.size;
+            }
+            if (stack.position.y < 0) {
+                stack.position.y = (this.size - Math.abs(stack.position.y)) % this.size;
+            }
     
             // Check for other conflicts with existing pieces in Board data
             const existingStack = this.data.find(piece => isEqual(piece.position, stack.position));
@@ -132,7 +150,46 @@ class Board
             if (existingStack)
             {
                 // There was a conflict, and now we resolve it here
-                (stack.height + existingStack.height) < this.size ? stack.height += existingStack.height : stack.height = '≡';
+                if ((stack.height + existingStack.height) < this.size)
+                {
+                    stack.height += existingStack.height;
+                }
+                else if (stack.height === '“' || stack.height === '”')
+                {
+                    // i dunno... nothing?
+                }
+                else if (existingStack.height === '“' || existingStack.height === '”')
+                {
+                    stack.height = existingStack.height;
+                }
+                else if ((stack.height + existingStack.height) >= this.size)
+                {
+                    // Synchronously wait for user decision
+                    msDecision((decision) => {
+                        if (decision === "diag") {
+                            stack.height = '”';
+                        } else if (decision === "orth") {
+                            stack.height = '“';
+                        }
+    
+                        // After decision, remove the existing piece from the board data
+                        this.destroyStack(existingStack);
+    
+                        // Add the resolved piece to the board data
+                        this.data.push(stack);
+    
+                        // Clear the update array after resolving conflicts
+                        this.updateData = [];
+                        drawGameBoard();
+
+                        drawGameBoard();
+                        board.winCheck();
+                        drawBackground(board.colorTurn());
+                    });
+    
+                    // Return here to wait for msDecision completion
+                    return;
+                }
     
                 // Remove the existing piece from the board data
                 this.destroyStack(existingStack);
@@ -145,7 +202,12 @@ class Board
         // Clear the update array after resolving conflicts
         this.updateData = [];
         drawGameBoard();
+
+        drawGameBoard();
+        board.winCheck();
+        drawBackground(board.colorTurn());
     }
+    
     
 
     winCheck()
@@ -163,6 +225,7 @@ class Board
         }
 
         this.turnCount++;
+
         return false; // No winner yet. . .
     }
 
