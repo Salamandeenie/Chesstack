@@ -65,6 +65,21 @@ class Stack
                 tempArray.push(new Position(x + i, y - i));
             }
         }
+        else if (height === "‘")
+        {
+            for (let i = 1; i < board.size; i++)
+            {
+                tempArray.push(new Position(x + i, y));
+                tempArray.push(new Position(x - i, y));
+                tempArray.push(new Position(x, y + i));
+                tempArray.push(new Position(x, y - i));
+
+                tempArray.push(new Position(x + i, y + i));
+                tempArray.push(new Position(x - i, y - i));
+                tempArray.push(new Position(x - i, y + i));
+                tempArray.push(new Position(x + i, y - i));
+            }
+        }
 
         else
         {
@@ -154,14 +169,15 @@ class Board
                 {
                     stack.height += existingStack.height;
                 }
-                else if (stack.height === '“' || stack.height === '”')
+                else if ((existingStack.height === '“' || existingStack.height === '”') && (stack.height === '“' || stack.height === '”'))
                 {
-                    // i dunno... nothing?
+                    stack.height = '‘';
                 }
                 else if (existingStack.height === '“' || existingStack.height === '”')
                 {
                     stack.height = existingStack.height;
                 }
+
                 else if ((stack.height + existingStack.height) >= this.size)
                 {
                     // Synchronously wait for user decision
